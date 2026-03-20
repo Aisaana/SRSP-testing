@@ -28,17 +28,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install pandas scikit-learn matplotlib seaborn pytest pylint pytest-cov coverage-badge
 
-      - name: Show installed packages
-        run: |
-          pip list
-
       - name: Run tests with coverage
         run: |
           pytest tests/ --cov=. --cov-report=xml --cov-report=term -v
 
       - name: Generate coverage badge
         run: |
-          coverage-badge -f coverage.xml -o coverage.svg
+          coverage-badge -o coverage.svg < coverage.xml
 
       - name: Commit and push badge
         run: |
