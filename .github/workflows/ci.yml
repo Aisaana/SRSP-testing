@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
@@ -27,18 +27,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install coverage-badge
 
-      - name: Lint with Pylint
+      - name: Run tests with coverage
         run: |
-          pylint src/ tests/ generate_data.py model.py --exit-zero || true
-
-      - name: Run tests with pytest
-        run: |
-          pytest tests/ -v
-
-      - name: Generate coverage report
-        run: |
-          pytest tests/ --cov=. --cov-report=xml --cov-report=term
+          pytest tests/ --cov=. --cov-report=xml --cov-report=term -v
 
       - name: Generate coverage badge
         run: |
@@ -50,6 +43,10 @@ jobs:
           git config --local user.name "GitHub Action"
           git add coverage.svg
           git commit -m "Update coverage badge [skip ci]" || echo "No changes to commit"
-          git push
+          git push || echo "Nothing to push"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint with Pylint
+        run: |
+          pylint src/ tests/ generate_data.py model.py --exit-zero || true
