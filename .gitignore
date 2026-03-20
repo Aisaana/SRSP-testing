@@ -1,0 +1,25 @@
+# Создай/перезапиши .gitignore
+@'
+# Виртуальные окружения
+venv/
+.env/
+
+# Кэш Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Тесты и покрытие
+.pytest_cache/
+.coverage
+*.xml
+*.svg
+!coverage.svg
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+'@ | Out-File -FilePath .gitignore -Encoding utf8
+
+# Проверь содержимое
+cat .gitignore
